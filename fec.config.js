@@ -1,5 +1,5 @@
 module.exports = {
-  appUrl: ['/prod/tang-adv-displayer'],
+  appUrl: ['/staging/tang-adv-displayer'],
   debug: true,
   useProxy: true,
   proxyVerbose: true,

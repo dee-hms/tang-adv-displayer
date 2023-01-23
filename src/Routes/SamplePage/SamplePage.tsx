@@ -23,45 +23,20 @@ const SamplePage = () => {
     insights?.chrome?.appAction?.('sample-page');
   }, []);
 
-  const handleAlert = () => {
-    dispatch(
-      addNotification({
-        variant: 'success',
-        title: 'Notification title',
-        description: 'notification description',
-      })
-    );
-  };
-
   return (
     <React.Fragment>
       <PageHeader>
-        <PageHeaderTitle title="Tang Advertisement Dispalyer Insights App" />
+        <PageHeaderTitle title="Tang Advertisement Displayer Insights App" />
         <p> This application is a simple application to show tang advertising URL </p>
       </PageHeader>
       <Main>
         <Stack hasGutter>
           <StackItem>
-            <Title headingLevel="h2" size="3xl">
-              {' '}
-              Alerts{' '}
-            </Title>
-            <Button variant="primary" onClick={handleAlert}>
-              {' '}
-              Dispatch alert{' '}
-            </Button>
-          </StackItem>
-          <StackItem>
-            <Suspense fallback={<Spinner />}>
-              <SampleComponent />
-            </Suspense>
-          </StackItem>
-          <StackItem>
             <Stack hasGutter>
               <StackItem>
                 <Title headingLevel="h2" size="3xl">
                   {' '}
-                  Links{' '}
+                  Tang Advertisement URL{' '}
                 </Title>
               </StackItem>
               <StackItem>

@@ -1,8 +1,0 @@
-.pf-l-page__main .pf-l-page__main-section.pf-m-dark:not(:first-child) {
-  background: var(--pf-global--BackgroundColor--dark-transparent-100);
-}
-.ins-c-not-authorized .pf-c-title {
-  max-width: 540px;
-  margin-left: auto;
-  margin-right: auto;
-}

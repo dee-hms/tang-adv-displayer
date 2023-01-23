@@ -1,0 +1,13 @@
+:root {
+  --ins-color--orange: #ec7a08;
+}
+
+.pf-l-page__main-section.pf-l-page-header.pf-m-dark-200 h1.pf-c-title.pf-m-2xl, .pf-l-page__main-section.pf-l-page-header.pf-m-dark-200 * {
+  color: #fff;
+}
+
+.pf-l-page__main-section.pf-l-page-header .pf-c-breadcrumb {
+  display: block;
+  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
+}

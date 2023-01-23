@@ -1,0 +1,8 @@
+{
+    "tangAdvDisplayer": {
+        "entry": [
+            "/beta/apps/tang-adv-displayer/tangAdvDisplayer.js",
+            "/beta/apps/tang-adv-displayer/js/runtime.js"
+        ]
+    }
+}

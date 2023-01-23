@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: frontend-tang-adv-displayer
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: tang-adv-displayer
+    spec:
+      envName: ${ENV_NAME}
+      title: URL displayer for Tang server
+      deploymentRepo: TBD
+      frontend:
+        paths:
+          - /apps/tang-adv-displayer
+      image: ${IMAGE}:${IMAGE_TAG}
+      navItems: 
+      - appId: tang-adv-displayer
+        title: URL displayer for Tang server
+        href: "/staging/tang-adv-displayer"
+      module:
+        manifestLocation: "/apps/tang-adv-displayer/fed-mods.json"
+        modules:
+          - id: "tang-adv-displayer"
+            module: "./RootApp"
+            routes: 
+            - pathname: "/staging/tang-adv-displayer"
+
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: TBD

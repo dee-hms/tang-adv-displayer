@@ -1,6 +1,7 @@
 {
   "name": "frontend-tang-adv-displayer",
   "version": "0.0.1",
+  "proxy": "api.c-rh-c-eph.8p0c.p1.openshiftapps.com:6443",
   "private": false,
   "engines": {
     "node": ">=16.0.0",
@@ -25,6 +26,7 @@
     "@redhat-cloud-services/frontend-components": "^3.9.5",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.8",
     "@redhat-cloud-services/frontend-components-utilities": "^3.2.21",
+    "axios": "^1.2.4",
     "classnames": "^2.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",

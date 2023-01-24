@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -6,6 +6,8 @@ import { Button, Spinner, Stack, StackItem, Title } from '@patternfly/react-core
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+
+import  axios from "axios";
 
 const SampleComponent = lazy(() => import('../../Components/SampleComponent/sample-component'));
 
@@ -18,9 +20,32 @@ const SampleComponent = lazy(() => import('../../Components/SampleComponent/samp
  */
 const SamplePage = () => {
   const dispatch = useDispatch();
+  const [totalReactPackages, setTotalReactPackages] = useState(null);
+  const [advUrl, setAdvUrl] = useState("");
+  const API_PATH = "api/v1/namespaces/ephemeral-rfymfc/endpoints/tang-backend-tang";
+  const COMPLETE_URL = "https://api.c-rh-c-eph.8p0c.p1.openshiftapps.com:6443/" + API_PATH;
+  const DEFAULT_PORT = 8000;
+  // TODO: Specify token from outside
+  const TOKEN = 'YOUR_TOKEN_HERE';
+  const BEARER_TOKEN = "Bearer " + TOKEN;
 
   useEffect(() => {
-    insights?.chrome?.appAction?.('sample-page');
+    insights?.chrome?.appAction?.('tang-adv-displayer');
+
+    axios.get(COMPLETE_URL,
+              {
+                  headers: {
+                      'Access-Control-Allow-Origin': '*',
+                      'Authorization': BEARER_TOKEN,
+                  },
+                  withCredentials: false,
+              })
+          .then(response => {
+              setAdvUrl("http://" + response.data.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv");
+          })
+          .catch(() => {
+              console.log('Axios error from:' + COMPLETE_URL)
+          });
   }, []);
 
   return (
@@ -40,7 +65,8 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
-                <Link to="https://here-the-link/oops"> Here a link to tang adv URL </Link>
+                <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
+                <p>API URL:{COMPLETE_URL}</p>
               </StackItem>
             </Stack>
           </StackItem>

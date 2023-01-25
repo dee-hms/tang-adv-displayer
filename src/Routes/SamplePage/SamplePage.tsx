@@ -35,7 +35,6 @@ const SamplePage = () => {
     console.log("CONSOLE Process env CONF DATA:" + confdata);
     console.log("CONSOLE Process env CONF DATA env:" + confdata.environment);
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
-    console.log("CONSOLE Process env CONF DATA token:" + confdata.token);
 
     axios.get(COMPLETE_URL,
               {

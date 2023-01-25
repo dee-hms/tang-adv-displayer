@@ -30,6 +30,17 @@ const SamplePage = () => {
   const API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
   const COMPLETE_URL = confdata.environment + "/" + API_PATH;
 
+  const getPublicUrl = (jsondata: any) => {
+      var i;
+      for(i=0; i < jsondata.subsets[0].ports.length; i++) {
+          if (jsondata.subsets[0].ports[i].name == "public") {
+              console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
+              return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
+          }
+      }
+      return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
+  };
+
   useEffect(() => {
     insights?.chrome?.appAction?.('tang-adv-displayer');
     console.log("CONSOLE Process env CONF DATA:" + confdata);
@@ -45,7 +56,7 @@ const SamplePage = () => {
                   withCredentials: false,
               })
           .then(response => {
-              setAdvUrl("http://" + response.data.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv");
+              setAdvUrl(getPublicUrl(response.data));
           })
           .catch(() => {
               console.log('Axios error from:' + COMPLETE_URL)

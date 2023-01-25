@@ -9,6 +9,8 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 
 import  axios from "axios";
 
+import confdata from "../../confdata.json";
+
 const SampleComponent = lazy(() => import('../../Components/SampleComponent/sample-component'));
 
 /**
@@ -24,22 +26,19 @@ const SamplePage = () => {
   const [advUrl, setAdvUrl] = useState("");
   const DEFAULT_PORT = 8000;
   // TODO: Specify token from outside
-  const TOKEN = "YOUR_TOKEN_HERE";
-  const BEARER_TOKEN = "Bearer " + TOKEN;
+  const BEARER_TOKEN = "Bearer " + confdata.token;
   // TODO: Specify namespace from outside
-  const NAMESPACE= "YOUR_NAMESPACE_HERE";
+  const NAMESPACE= confdata.namespace;
   const API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
   // TODO: specify host from outside
-  const COMPLETE_URL = "https://api.c-rh-c-eph.8p0c.p1.openshiftapps.com:6443/" + API_PATH;
+  const COMPLETE_URL = confdata.environment + "/" + API_PATH;
 
   useEffect(() => {
     insights?.chrome?.appAction?.('tang-adv-displayer');
-    console.log("Process env:" + process.env);
-    console.log("Process env NODE_ENV:" + process.env.NODE_ENV);
-    console.log("Process env REACT_APP_CLIENT_TOKEN:" + process.env.REACT_APP_CLIENT_TOKEN);
-    console.log("Process env PROXY:" + process.env.PROXY);
-    console.log("Process env DEVELOPMENT TEST:" + process.env.REACT_APP_DEVELOPMENT_TEST);
-    console.log("Process env  PRODUCTION TEST:" + process.env.REACT_APP_PRODUCTION_TEST);
+    console.log("CONSOLE Process env CONF DATA:" + confdata);
+    console.log("CONSOLE Process env CONF DATA env:" + confdata.environment);
+    console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
+    console.log("CONSOLE Process env CONF DATA token:" + confdata.token);
 
     axios.get(COMPLETE_URL,
               {
@@ -77,6 +76,7 @@ const SamplePage = () => {
                 <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
                 <p>API URL:{COMPLETE_URL}</p>
                 <p>TOKEN:{BEARER_TOKEN}</p>
+                <p>ENV:{process.env.REACT_APP_CLIENT_TOKEN}</p>
               </StackItem>
             </Stack>
           </StackItem>

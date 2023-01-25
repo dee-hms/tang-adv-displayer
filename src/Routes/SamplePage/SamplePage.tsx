@@ -22,13 +22,15 @@ const SampleComponent = lazy(() => import('../../Components/SampleComponent/samp
  */
 const SamplePage = () => {
   const dispatch = useDispatch();
-  const [totalReactPackages, setTotalReactPackages] = useState(null);
   const [advUrl, setAdvUrl] = useState("");
+  const [replicas, setReplicas] = useState("");
   const DEFAULT_PORT = 8000;
   const BEARER_TOKEN = "Bearer " + confdata.token;
   const NAMESPACE= confdata.namespace;
-  const API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
-  const COMPLETE_URL = confdata.environment + "/" + API_PATH;
+  const SERVICE_API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
+  const DEPLOYMENT_API_PATH = "apis/apps/v1/namespaces/" + NAMESPACE + "/deployments/tang-backend-tang";
+  const SERVICE_COMPLETE_URL = confdata.environment + "/" + SERVICE_API_PATH;
+  const DEPLOYMENT_COMPLETE_URL = confdata.environment + "/" + DEPLOYMENT_API_PATH;
 
   const getPublicUrl = (jsondata: any) => {
       var i;
@@ -41,13 +43,17 @@ const SamplePage = () => {
       return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
   };
 
+  const getReplicas = (jsondata: any) => {
+      return jsondata.spec.replicas;
+  };
+
   useEffect(() => {
     insights?.chrome?.appAction?.('tang-adv-displayer');
     console.log("CONSOLE Process env CONF DATA:" + confdata);
     console.log("CONSOLE Process env CONF DATA env:" + confdata.environment);
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
 
-    axios.get(COMPLETE_URL,
+    axios.get(SERVICE_COMPLETE_URL,
               {
                   headers: {
                       'Access-Control-Allow-Origin': '*',
@@ -59,8 +65,25 @@ const SamplePage = () => {
               setAdvUrl(getPublicUrl(response.data));
           })
           .catch(() => {
-              console.log('Axios error from:' + COMPLETE_URL)
+              console.log('Axios error from:' + SERVICE_COMPLETE_URL)
           });
+
+    axios.get(DEPLOYMENT_COMPLETE_URL,
+              {
+                  headers: {
+                      'Access-Control-Allow-Origin': '*',
+                      'Authorization': BEARER_TOKEN,
+                  },
+                  withCredentials: false,
+              })
+          .then(response => {
+              setReplicas(getReplicas(response.data));
+          })
+          .catch(() => {
+              console.log('Axios error from:' + DEPLOYMENT_COMPLETE_URL)
+          });
+
+
   }, []);
 
   return (
@@ -81,7 +104,9 @@ const SamplePage = () => {
               </StackItem>
               <StackItem>
                 <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
-                <p>API URL:{COMPLETE_URL}</p>
+                <p>Replicas: {replicas}</p>
+                <p>SERVICE API URL:{SERVICE_COMPLETE_URL}</p>
+                <p>DEPLOYMENT API URL:{DEPLOYMENT_COMPLETE_URL}</p>
               </StackItem>
             </Stack>
           </StackItem>

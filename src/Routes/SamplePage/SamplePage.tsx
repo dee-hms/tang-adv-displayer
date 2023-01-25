@@ -72,8 +72,6 @@ const SamplePage = () => {
               <StackItem>
                 <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
                 <p>API URL:{COMPLETE_URL}</p>
-                <p>TOKEN:{BEARER_TOKEN}</p>
-                <p>ENV:{process.env.REACT_APP_CLIENT_TOKEN}</p>
               </StackItem>
             </Stack>
           </StackItem>

@@ -25,12 +25,9 @@ const SamplePage = () => {
   const [totalReactPackages, setTotalReactPackages] = useState(null);
   const [advUrl, setAdvUrl] = useState("");
   const DEFAULT_PORT = 8000;
-  // TODO: Specify token from outside
   const BEARER_TOKEN = "Bearer " + confdata.token;
-  // TODO: Specify namespace from outside
   const NAMESPACE= confdata.namespace;
   const API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
-  // TODO: specify host from outside
   const COMPLETE_URL = confdata.environment + "/" + API_PATH;
 
   useEffect(() => {

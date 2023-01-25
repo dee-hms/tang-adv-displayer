@@ -53,7 +53,7 @@ const SamplePage = () => {
     console.log("CONSOLE Process env CONF DATA env:" + confdata.environment);
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
     console.log("CONSOLE SERVICE URL:" + SERVICE_COMPLETE_URL);
-    console.log("CONSOLE DEPLOYMENT URL" + DEPLOYMENT_COMPLETE_URL);
+    console.log("CONSOLE DEPLOYMENT URL:" + DEPLOYMENT_COMPLETE_URL);
 
     axios.get(SERVICE_COMPLETE_URL,
               {

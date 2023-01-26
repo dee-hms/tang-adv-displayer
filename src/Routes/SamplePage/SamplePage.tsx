@@ -35,10 +35,10 @@ const SamplePage = () => {
   const getPublicUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
-        if (jsondata.subsets[0].ports[i].name == "public") {
-            console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
-            return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
-        }
+      if (jsondata.subsets[0].ports[i].name == "public") {
+        console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
+        return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
+      }
     }
     return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
   };
@@ -49,31 +49,30 @@ const SamplePage = () => {
 
   const parseRequest = async (prompturl: string, setf: Function, getf: Function) => {
     try {
-      axios.get(prompturl,
-                {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Authorization': BEARER_TOKEN,
-                    },
-                    withCredentials: false,
-                })
-          .then(response => {
-              if (response.status == 200) {
-                  setf(getf(response.data));
-                  return response;
-              } else {
-                  console.log('Axios error code ' + response.status + ' from:' + prompturl);
-                  return Promise.reject(response);
-              }
-              // reject errors & warnings
-              return Promise.reject(response);
-          })
-          .then(error => {
-              return Promise.reject(error);
-          })
-          .catch(() => {
-              console.log('Axios error from:' + prompturl);
-          });
+      axios.get(prompturl, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': BEARER_TOKEN,
+        },
+        withCredentials: false,
+      })
+      .then(response => {
+        if (response.status == 200) {
+          setf(getf(response.data));
+          return response;
+        } else {
+          console.log('Axios error code ' + response.status + ' from:' + prompturl);
+          return Promise.reject(response);
+        }
+        // reject errors & warnings
+        return Promise.reject(response);
+      })
+      .then(error => {
+        return Promise.reject(error);
+      })
+      .catch(() => {
+        console.log('Axios error from:' + prompturl);
+      });
     } catch (error) {
       console.log(error);
     }

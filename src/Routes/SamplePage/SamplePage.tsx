@@ -31,8 +31,9 @@ const SamplePage = () => {
   const DEPLOYMENT_API_PATH = "apis/apps/v1/namespaces/" + NAMESPACE + "/deployments/tang-backend-tang";
   const SERVICE_COMPLETE_URL = confdata.environment + "/" + SERVICE_API_PATH;
   const DEPLOYMENT_COMPLETE_URL = confdata.environment + "/" + DEPLOYMENT_API_PATH;
+  const WAIT_TIME = 5; // Check API every 5 seconds: TODO: do asynchronously
 
-  const getPublicUrl = (jsondata: any) => {
+  const getAdvUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
       if (jsondata.subsets[0].ports[i].name == "public") {
@@ -85,9 +86,14 @@ const SamplePage = () => {
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
     console.log("CONSOLE SERVICE URL:" + SERVICE_COMPLETE_URL);
     console.log("CONSOLE DEPLOYMENT URL:" + DEPLOYMENT_COMPLETE_URL);
-    parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getPublicUrl);
+    parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
     parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, getReplicas);
-  }, []);
+    const id = setInterval(() => {
+        parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
+        parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, getReplicas);
+    }, WAIT_TIME);
+    return () => clearInterval(id);
+  }, [replicas, advUrl]);
 
   return (
     <React.Fragment>

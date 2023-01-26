@@ -33,18 +33,50 @@ const SamplePage = () => {
   const DEPLOYMENT_COMPLETE_URL = confdata.environment + "/" + DEPLOYMENT_API_PATH;
 
   const getPublicUrl = (jsondata: any) => {
-      var i;
-      for(i=0; i < jsondata.subsets[0].ports.length; i++) {
-          if (jsondata.subsets[0].ports[i].name == "public") {
-              console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
-              return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
-          }
-      }
-      return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
+    var i;
+    for(i=0; i < jsondata.subsets[0].ports.length; i++) {
+        if (jsondata.subsets[0].ports[i].name == "public") {
+            console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
+            return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
+        }
+    }
+    return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
   };
 
   const getReplicas = (jsondata: any) => {
-      return jsondata.spec.replicas;
+    return jsondata.spec.replicas;
+  };
+
+  const parseRequest = async (prompturl: string, setf: Function, getf: Function) => {
+    try {
+      axios.get(prompturl,
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': BEARER_TOKEN,
+                    },
+                    withCredentials: false,
+                })
+          .then(response => {
+              if (response.status == 200) {
+                  setf(getf(response.data));
+                  return response;
+              } else {
+                  console.log('Axios error code ' + response.status + ' from:' + prompturl);
+                  return Promise.reject(response);
+              }
+              // reject errors & warnings
+              return Promise.reject(response);
+          })
+          .then(error => {
+              return Promise.reject(error);
+          })
+          .catch(() => {
+              console.log('Axios error from:' + prompturl);
+          });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -54,38 +86,8 @@ const SamplePage = () => {
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
     console.log("CONSOLE SERVICE URL:" + SERVICE_COMPLETE_URL);
     console.log("CONSOLE DEPLOYMENT URL:" + DEPLOYMENT_COMPLETE_URL);
-
-    axios.get(SERVICE_COMPLETE_URL,
-              {
-                  headers: {
-                      'Access-Control-Allow-Origin': '*',
-                      'Authorization': BEARER_TOKEN,
-                  },
-                  withCredentials: false,
-              })
-          .then(response => {
-              setAdvUrl(getPublicUrl(response.data));
-          })
-          .catch(() => {
-              console.log('Axios error from:' + SERVICE_COMPLETE_URL)
-          });
-
-    axios.get(DEPLOYMENT_COMPLETE_URL,
-              {
-                  headers: {
-                      'Access-Control-Allow-Origin': '*',
-                      'Authorization': BEARER_TOKEN,
-                  },
-                  withCredentials: false,
-              })
-          .then(response => {
-              setReplicas(getReplicas(response.data));
-          })
-          .catch(() => {
-              console.log('Axios error from:' + DEPLOYMENT_COMPLETE_URL)
-          });
-
-
+    parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getPublicUrl);
+    parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, getReplicas);
   }, []);
 
   return (

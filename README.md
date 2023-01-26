@@ -18,9 +18,17 @@ sudo npm run patch:hosts
 
 2. ```npm run start```
 
-3. Open browser in URL listed in the terminal output
+3. For application to run correctly in this stage, you need to configure ./src/confdata.json with next information:
 
-4. Currently, `App.tsx` will throw a type error until your app is registered and a `navId` has been set
+{
+  "environment": "ENVIRONMENT_TO_CONNECT",
+  "namespace":  "THE_NAMESPACE_IN_EPHEMERAL_ENVIRONMENTS",
+  "token": "EPHEMERAL_ENVIRONMENT_ACCESS_TOKEN"
+}
+
+4. Open browser in URL listed in the terminal output
+
+5. Currently, `App.tsx` will throw a type error until your app is registered and a `navId` has been set
 
 Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
 

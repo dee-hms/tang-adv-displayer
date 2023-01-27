@@ -24,6 +24,7 @@ const SamplePage = () => {
   const dispatch = useDispatch();
   const [advUrl, setAdvUrl] = useState("");
   const [replicas, setReplicas] = useState("");
+  const [readyReplicas, setReadyReplicas] = useState("");
   const DEFAULT_PORT = 8000;
   const BEARER_TOKEN = "Bearer " + confdata.token;
   const NAMESPACE= confdata.namespace;
@@ -31,21 +32,25 @@ const SamplePage = () => {
   const DEPLOYMENT_API_PATH = "apis/apps/v1/namespaces/" + NAMESPACE + "/deployments/tang-backend-tang";
   const SERVICE_COMPLETE_URL = confdata.environment + "/" + SERVICE_API_PATH;
   const DEPLOYMENT_COMPLETE_URL = confdata.environment + "/" + DEPLOYMENT_API_PATH;
-  const WAIT_TIME = 5; // Check API every 5 seconds: TODO: do asynchronously
+  const WAIT_TIME = 1000; // Check API every second: TODO: do asynchronously
 
   const getAdvUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
       if (jsondata.subsets[0].ports[i].name == "public") {
-        console.log("CONSOLE Public port found:" + jsondata.subsets[0].ports[i].port);
+        console.log("CONSOLE: Public port found:" + jsondata.subsets[0].ports[i].port);
         return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
       }
     }
     return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
   };
 
-  const getReplicas = (jsondata: any) => {
+  const parseReplicas = (jsondata: any) => {
     return jsondata.spec.replicas;
+  };
+
+  const parseReadyReplicas = (jsondata: any) => {
+    return jsondata.status.readyReplicas;
   };
 
   const parseRequest = async (prompturl: string, setf: Function, getf: Function) => {
@@ -62,7 +67,7 @@ const SamplePage = () => {
           setf(getf(response.data));
           return response;
         } else {
-          console.log('Axios error code ' + response.status + ' from:' + prompturl);
+          console.log('CONSOLE: Axios error code ' + response.status + ' from:' + prompturl);
           return Promise.reject(response);
         }
         // reject errors & warnings
@@ -71,9 +76,7 @@ const SamplePage = () => {
       .then(error => {
         return Promise.reject(error);
       })
-      .catch(() => {
-        console.log('Axios error from:' + prompturl);
-      });
+      .catch(() => {});
     } catch (error) {
       console.log(error);
     }
@@ -87,13 +90,15 @@ const SamplePage = () => {
     console.log("CONSOLE SERVICE URL:" + SERVICE_COMPLETE_URL);
     console.log("CONSOLE DEPLOYMENT URL:" + DEPLOYMENT_COMPLETE_URL);
     parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
-    parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, getReplicas);
+    parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, parseReplicas);
+    parseRequest(DEPLOYMENT_COMPLETE_URL, setReadyReplicas, parseReadyReplicas);
     const id = setInterval(() => {
         parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
-        parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, getReplicas);
+        parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, parseReplicas);
+        parseRequest(DEPLOYMENT_COMPLETE_URL, setReadyReplicas, parseReadyReplicas);
     }, WAIT_TIME);
     return () => clearInterval(id);
-  }, [replicas, advUrl]);
+  }, [replicas, readyReplicas, advUrl]);
 
   return (
     <React.Fragment>
@@ -113,7 +118,7 @@ const SamplePage = () => {
               </StackItem>
               <StackItem>
                 <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
-                <p>Replicas: {replicas}</p>
+                <p>Replicas: {readyReplicas}/{replicas}</p>
               </StackItem>
             </Stack>
           </StackItem>

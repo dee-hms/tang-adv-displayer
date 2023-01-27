@@ -20,11 +20,13 @@ sudo npm run patch:hosts
 
 3. For application to run correctly in this stage, you need to configure ./src/confdata.json with next information:
 
+```
 {
   "environment": "ENVIRONMENT_TO_CONNECT",
   "namespace":  "THE_NAMESPACE_IN_EPHEMERAL_ENVIRONMENTS",
   "token": "EPHEMERAL_ENVIRONMENT_ACCESS_TOKEN"
 }
+```
 
 4. Open browser in URL listed in the terminal output
 

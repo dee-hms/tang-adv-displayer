@@ -38,7 +38,6 @@ const SamplePage = () => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
       if (jsondata.subsets[0].ports[i].name == "public") {
-        console.log("CONSOLE: Public port found:" + jsondata.subsets[0].ports[i].port);
         return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
       }
     }

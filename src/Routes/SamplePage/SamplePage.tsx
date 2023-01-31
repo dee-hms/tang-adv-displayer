@@ -128,7 +128,7 @@ const SamplePage = () => {
               <StackItem>
                 <Title headingLevel="h2" size="3xl">
                   {' '}
-                  Tang Advertisement URL{' '}
+                  Tang Server Information{' '}
                 </Title>
               </StackItem>
               <StackItem>

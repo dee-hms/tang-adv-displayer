@@ -25,23 +25,36 @@ const SamplePage = () => {
   const [advUrl, setAdvUrl] = useState("");
   const [replicas, setReplicas] = useState("");
   const [readyReplicas, setReadyReplicas] = useState("");
+  const [publicUrl, setPublicUrl] = useState("");
   const DEFAULT_PORT = 8000;
   const BEARER_TOKEN = "Bearer " + confdata.token;
   const NAMESPACE= confdata.namespace;
   const SERVICE_API_PATH = "api/v1/namespaces/" + NAMESPACE + "/endpoints/tang-backend-tang";
   const DEPLOYMENT_API_PATH = "apis/apps/v1/namespaces/" + NAMESPACE + "/deployments/tang-backend-tang";
+  const ROUTES_API_PATH = "apis/route.openshift.io/v1/namespaces/" + NAMESPACE + "/routes";
   const SERVICE_COMPLETE_URL = confdata.environment + "/" + SERVICE_API_PATH;
   const DEPLOYMENT_COMPLETE_URL = confdata.environment + "/" + DEPLOYMENT_API_PATH;
+  const ROUTES_COMPLETE_URL = confdata.environment + "/" + ROUTES_API_PATH;
   const WAIT_TIME = 1000; // Check API every second: TODO: do asynchronously
 
   const getAdvUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
       if (jsondata.subsets[0].ports[i].name == "public") {
-        return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/adv";
+        return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/api/adv/";
       }
     }
-    return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/adv";
+    return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/api/adv/";
+  };
+
+  const parsePublicUrl = (jsondata: any) => {
+    var i;
+    for(i=0; i < jsondata.items.length; i++) {
+      if (jsondata.items[i].spec.path == "/api/dee-hms/") {
+          return "https://" + jsondata.items[i].spec.host + "/api/dee-hms/";
+      }
+    }
+    return "https://UNKNOWN/api/adv/";
   };
 
   const parseReplicas = (jsondata: any) => {
@@ -88,16 +101,19 @@ const SamplePage = () => {
     console.log("CONSOLE Process env CONF DATA namespace:" + confdata.namespace);
     console.log("CONSOLE SERVICE URL:" + SERVICE_COMPLETE_URL);
     console.log("CONSOLE DEPLOYMENT URL:" + DEPLOYMENT_COMPLETE_URL);
+    console.log("CONSOLE ROUTES URL:" + ROUTES_COMPLETE_URL);
     parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
     parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, parseReplicas);
     parseRequest(DEPLOYMENT_COMPLETE_URL, setReadyReplicas, parseReadyReplicas);
+    parseRequest(ROUTES_COMPLETE_URL, setPublicUrl, parsePublicUrl);
     const id = setInterval(() => {
         parseRequest(SERVICE_COMPLETE_URL, setAdvUrl, getAdvUrl);
         parseRequest(DEPLOYMENT_COMPLETE_URL, setReplicas, parseReplicas);
         parseRequest(DEPLOYMENT_COMPLETE_URL, setReadyReplicas, parseReadyReplicas);
+        parseRequest(ROUTES_COMPLETE_URL, setPublicUrl, parsePublicUrl);
     }, WAIT_TIME);
     return () => clearInterval(id);
-  }, [replicas, readyReplicas, advUrl]);
+  }, [replicas, readyReplicas, advUrl, publicUrl]);
 
   return (
     <React.Fragment>
@@ -117,6 +133,7 @@ const SamplePage = () => {
               </StackItem>
               <StackItem>
                 <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
+                <p>Public URL: <a href={publicUrl}>{publicUrl}</a></p>
                 <p>Replicas: {readyReplicas}/{replicas}</p>
               </StackItem>
             </Stack>

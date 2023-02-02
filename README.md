@@ -12,14 +12,9 @@ If this command throws an error run it as a `sudo`:
 sudo npm run patch:hosts
 ```
 
-## Getting started
+## Deployment
 
-1. ```npm install```
-
-2. ```npm run start```
-
-3. For application to run correctly in this stage, you need to configure ./src/confdata.json with next information:
-
+1. For application to run correctly and be able to retrieve tang backend information, you need to configure ./src/confdata.json with next information:
 ```
 {
   "environment": "ENVIRONMENT_TO_CONNECT",
@@ -28,12 +23,14 @@ sudo npm run patch:hosts
 }
 ```
 
-4. Open browser in URL listed in the terminal output
+2. ```npm install```
 
-5. Currently, `App.tsx` will throw a type error until your app is registered and a `navId` has been set
+3. ```npm run start```. On its execution, you will be able to select the kind of deployment(prod/stage) and the kind of distribution(beta/stable).
 
-Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
+4. Open browser in URL listed in the terminal output. The URL will be something of the type:
+```https://prod.foo.redhat.com:1337/beta/staging/tang-adv-displayer/```
+URL will vary considering the kind of deployment and distribution selected.
 
-### Testing
+## Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)

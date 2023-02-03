@@ -26,6 +26,8 @@ const SamplePage = () => {
   const [replicas, setReplicas] = useState("");
   const [readyReplicas, setReadyReplicas] = useState("");
   const [publicUrl, setPublicUrl] = useState("");
+  const BACKEND_API = "/api/dee-hms/";
+  const ADV = "adv";
   const DEFAULT_PORT = 8000;
   const BEARER_TOKEN = "Bearer " + confdata.token;
   const NAMESPACE= confdata.namespace;
@@ -41,20 +43,20 @@ const SamplePage = () => {
     var i;
     for(i=0; i < jsondata.subsets[0].ports.length; i++) {
       if (jsondata.subsets[0].ports[i].name == "public") {
-        return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port + "/api/dee-hms/";
+        return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + jsondata.subsets[0].ports[i].port;
       }
     }
-    return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT + "/api/dee-hms/";
+    return "http://" + jsondata.subsets[0].addresses[0].ip + ":" + DEFAULT_PORT;
   };
 
   const parsePublicUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.items.length; i++) {
-      if (jsondata.items[i].spec.path == "/api/dee-hms/") {
-          return "https://" + jsondata.items[i].spec.host + "/api/dee-hms/";
+      if (jsondata.items[i].spec.path == BACKEND_API) {
+          return "https://" + jsondata.items[i].spec.host;
       }
     }
-    return "https://UNKNOWN/api/dee-hms/";
+    return "UNKNOWN";
   };
 
   const parseReplicas = (jsondata: any) => {
@@ -132,8 +134,9 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
-                <p>Advertisement URL: <a href={advUrl}>{advUrl}</a></p>
-                <p>Public URL: <a href={publicUrl}>{publicUrl}</a></p>
+                <p>Advertisement Internal URL: <a href="{advUrl}{BACKEND_API}{ADV}">{advUrl}{BACKEND_API}{ADV}</a></p>
+                <p>Public URL: <a href="{publicUrl}{BACKEND_API}">{publicUrl}{BACKEND_API}</a></p>
+                <p>Clevis URL: <a href={publicUrl}>{publicUrl}</a></p>
                 <p>Replicas: {readyReplicas}/{replicas}</p>
               </StackItem>
             </Stack>

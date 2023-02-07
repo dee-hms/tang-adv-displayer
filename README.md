@@ -22,6 +22,7 @@ sudo npm run patch:hosts
   "token": "EPHEMERAL_ENVIRONMENT_ACCESS_TOKEN"
 }
 ```
+NOTE: The environment to connect should be prepended by https://
 
 2. ```npm install```
 

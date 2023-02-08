@@ -23,8 +23,8 @@ const SampleComponent = lazy(() => import('../../Components/SampleComponent/samp
 const SamplePage = () => {
   const dispatch = useDispatch();
   const [advUrl, setAdvUrl] = useState("");
-  const [replicas, setReplicas] = useState("");
-  const [readyReplicas, setReadyReplicas] = useState("");
+  const [replicas, setReplicas] = useState("0");
+  const [readyReplicas, setReadyReplicas] = useState("0");
   const [publicUrl, setPublicUrl] = useState("");
   const BACKEND_API = "/api/dee-hms/";
   const ADV = "adv";
@@ -60,10 +60,16 @@ const SamplePage = () => {
   };
 
   const parseReplicas = (jsondata: any) => {
+    if ("" == jsondata.status.replicas || !jsondata.status.replicas) {
+      return "0";
+    }
     return jsondata.spec.replicas;
   };
 
   const parseReadyReplicas = (jsondata: any) => {
+    if ("" == jsondata.status.readyReplicas || !jsondata.status.readyReplicas) {
+        return "0";
+    }
     return jsondata.status.readyReplicas;
   };
 

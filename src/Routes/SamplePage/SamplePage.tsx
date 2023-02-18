@@ -26,8 +26,8 @@ const SamplePage = () => {
   const [replicas, setReplicas] = useState("0");
   const [readyReplicas, setReadyReplicas] = useState("0");
   const [publicUrl, setPublicUrl] = useState("");
-  const BACKEND_API = "/api/dee-hms/";
-  const ADV = "adv";
+  const BACKEND_API_ADV = "/api/dee-hms/adv";
+  const TANG_LABEL = "tang";
   const DEFAULT_PORT = 8000;
   const BEARER_TOKEN = "Bearer " + confdata.token;
   const NAMESPACE= confdata.namespace;
@@ -52,8 +52,8 @@ const SamplePage = () => {
   const parsePublicUrl = (jsondata: any) => {
     var i;
     for(i=0; i < jsondata.items.length; i++) {
-      if (jsondata.items[i].spec.path == BACKEND_API) {
-          return "https://" + jsondata.items[i].spec.host;
+      if (jsondata.items[i].metadata.labels.app == TANG_LABEL) {
+          return "https://" + jsondata.items[i].spec.host + jsondata.items[i].spec.path;
       }
     }
     return "UNKNOWN";
@@ -140,8 +140,8 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
-                <p>Advertisement Internal URL: <a href="{advUrl}{BACKEND_API}{ADV}">{advUrl}{BACKEND_API}{ADV}</a></p>
-                <p>Clevis URL: <a href="{publicUrl}{BACKEND_API}">{publicUrl}{BACKEND_API}</a></p>
+                <p>Advertisement Internal URL: <a href="{advUrl}{BACKEND_API_ADV}">{advUrl}{BACKEND_API_ADV}</a></p>
+                <p>Clevis URL: <a href="{publicUrl}">{publicUrl}</a></p>
                 <p>Replicas: {readyReplicas}/{replicas}</p>
               </StackItem>
             </Stack>

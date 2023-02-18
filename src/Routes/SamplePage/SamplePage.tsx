@@ -141,8 +141,7 @@ const SamplePage = () => {
               </StackItem>
               <StackItem>
                 <p>Advertisement Internal URL: <a href="{advUrl}{BACKEND_API}{ADV}">{advUrl}{BACKEND_API}{ADV}</a></p>
-                <p>Public URL: <a href="{publicUrl}{BACKEND_API}">{publicUrl}{BACKEND_API}</a></p>
-                <p>Clevis URL: <a href={publicUrl}>{publicUrl}</a></p>
+                <p>Clevis URL: <a href="{publicUrl}{BACKEND_API}">{publicUrl}{BACKEND_API}</a></p>
                 <p>Replicas: {readyReplicas}/{replicas}</p>
               </StackItem>
             </Stack>

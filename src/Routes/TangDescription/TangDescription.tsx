@@ -20,7 +20,7 @@ const SampleComponent = lazy(() => import('../../Components/SampleComponent/samp
  * https://reactjs.org/docs/components-and-props.html
  * https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
  */
-const SamplePage = () => {
+const TangDescription = () => {
   const dispatch = useDispatch();
   const [advUrl, setAdvUrl] = useState("");
   const [replicas, setReplicas] = useState("0");
@@ -152,4 +152,4 @@ const SamplePage = () => {
   );
 };
 
-export default SamplePage;
+export default TangDescription;

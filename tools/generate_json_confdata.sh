@@ -83,7 +83,7 @@ if [ -z "${OUTPUT_FILE}" ]; then
   "token":"$(get_token ${TOKEN_FILE})"
 }
 EOF
-else  
+else
   cat<<EOF > "${OUTPUT_FILE}"
 {
   "environment":"$(get_environment)"

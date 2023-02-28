@@ -47,7 +47,7 @@ get_namespace() {
 }
 
 get_token() {
-  cat "$1" | tr -d '\n'
+  tr -d '\n' < "${1}"
 }
 
 TOKEN_FILE=""
@@ -74,13 +74,12 @@ then
   die 1 'Please, provide a existing token file'
 fi
 
-
 if [ -z "${OUTPUT_FILE}" ]; then
   cat <<EOF
 {
   "environment":"$(get_environment)"
   "namespace":"$(get_namespace)"
-  "token":"$(get_token ${TOKEN_FILE})"
+  "token":"$(get_token "${TOKEN_FILE}")"
 }
 EOF
 else
@@ -88,7 +87,7 @@ else
 {
   "environment":"$(get_environment)"
   "namespace":"$(get_namespace)"
-  "token":"$(get_token ${TOKEN_FILE})"
+  "token":"$(get_token "${TOKEN_FILE}")"
 }
 EOF
 fi

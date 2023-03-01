@@ -14,7 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 usage() {
+  echo
+  echo "Usage:"
   echo
   echo "$0 -t token_file [-o output_file] [-h] [-v]"
   echo
@@ -69,9 +72,16 @@ do
   esac
 done
 
-if [ -z "${TOKEN_FILE}" ] || [ ! -f "${TOKEN_FILE}" ];
+if [ -z "${TOKEN_FILE}" ];
 then
-  die 1 'Please, provide a existing token file'
+  echo
+  echo "-t option is mandatory (token file must be provided)"
+  usage "$0" 1
+fi
+
+if [ ! -f "${TOKEN_FILE}" ];
+then
+  die 1 'Please, provide an existing token file'
 fi
 
 if [ -z "${OUTPUT_FILE}" ]; then

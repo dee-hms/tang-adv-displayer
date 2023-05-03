@@ -87,16 +87,16 @@ fi
 if [ -z "${OUTPUT_FILE}" ]; then
   cat <<EOF
 {
-  "environment":"$(get_environment)"
-  "namespace":"$(get_namespace)"
+  "environment":"$(get_environment)",
+  "namespace":"$(get_namespace)",
   "token":"$(get_token "${TOKEN_FILE}")"
 }
 EOF
 else
   cat<<EOF > "${OUTPUT_FILE}"
 {
-  "environment":"$(get_environment)"
-  "namespace":"$(get_namespace)"
+  "environment":"$(get_environment)",
+  "namespace":"$(get_namespace)",
   "token":"$(get_token "${TOKEN_FILE}")"
 }
 EOF

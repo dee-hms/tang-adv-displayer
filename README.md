@@ -1,6 +1,6 @@
 ## Initial etc/hosts setup
 
-In order to access the https://[env].foo.redhat.com in your browser, you have to add entries to your `/etc/hosts` file. This is a **one-time** setup that has to be done only once (unless you modify hosts) on each machine.
+In order to access URL `https://[env].foo.redhat.com` in your browser, you have to add entries to your `/etc/hosts` file. This is a **one-time** setup that has to be done only once (unless you modify hosts) on each machine.
 
 To setup the hosts file run following command:
 ```bash
@@ -14,7 +14,7 @@ sudo npm run patch:hosts
 
 ## Deployment
 
-1. For application to run correctly and be able to retrieve tang backend information, you need to configure ./src/confdata.json with next information:
+1. For application to run correctly and be able to retrieve tang backend information, you need to configure `./src/confdata.json` with next information:
 ```
 {
   "environment": "ENVIRONMENT_TO_CONNECT",
@@ -22,7 +22,7 @@ sudo npm run patch:hosts
   "token": "EPHEMERAL_ENVIRONMENT_ACCESS_TOKEN"
 }
 ```
-NOTE: The environment to connect should be prepended by https://
+NOTE: The environment to connect should contain prefix `https://`
 
 2. ```npm install```
 
@@ -34,4 +34,4 @@ URL will vary considering the kind of deployment and distribution selected.
 
 ## Testing
 
-`npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
+`npm run verify` will run `npm run lint` (eslint) and `npm test` (jest)

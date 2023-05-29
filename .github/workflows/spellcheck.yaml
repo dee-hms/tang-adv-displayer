@@ -1,6 +1,11 @@
+---
 name: spellcheck
 on:
   pull_request:
+  push:
+    branches:
+      - master
+
 jobs:
   check-spelling:
     runs-on: ubuntu-latest

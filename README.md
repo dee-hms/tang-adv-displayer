@@ -14,7 +14,7 @@ sudo npm run patch:hosts
 
 ## Deployment
 
-1. For application to run correctly and be able to retrieve Tang backend information, you need to configure `./src/confdata.json` with next information:
+1. For application to run correctly and be able to retrieve Tang backend information, it is required to configure `./src/confdata.json` with next information:
 ```
 {
   "environment": "ENVIRONMENT_TO_CONNECT",

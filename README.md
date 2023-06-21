@@ -1,3 +1,7 @@
+# tang-adv-displayer
+[![spellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml)\
+[![shellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml)
+
 ## Initial etc/hosts setup
 
 In order to access URL `https://[env].foo.redhat.com` in your browser, you have to add entries to your `/etc/hosts` file. This is a **one-time** setup that has to be done only once (unless you modify hosts) on each machine.

@@ -1,3 +1,5 @@
+adv
+displayer
 Github
 Markdown
 llvm
@@ -28,3 +30,6 @@ pushState
 redhat
 redux
 replaceState
+shellcheck
+spellcheck
+tang

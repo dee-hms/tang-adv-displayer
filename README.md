@@ -1,6 +1,6 @@
 # tang-adv-displayer
-[![spellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml)\
-[![shellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml)
+[![shellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/shellcheck.yaml)\
+[![spellcheck](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml/badge.svg)](https://github.com/dee-hms/tang-adv-displayer/actions/workflows/spellcheck.yaml)
 
 ## Initial etc/hosts setup
 

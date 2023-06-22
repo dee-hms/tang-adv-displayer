@@ -28,6 +28,17 @@ sudo npm run patch:hosts
 ```
 NOTE: The environment to connect should contain prefix `https://`
 
+**If you are connected to a bonfire environment, and have a text file with your token**, `./src/confdata.json` required information can be generated through `./tools/generate_json_confdata.sh`:
+
+```bash
+$ ./generate_json_confdata.sh -t ../../../../api_token.txt 
+{
+  "environment":"https://api.a-bc-d-efg.1p1c.p2.openshiftapps.com:3456",
+  "namespace":"ephemeral-num123",
+  "token":"sha256~basdkj123234234WdfaADF234FDASDF63124BzxBZXx"
+}
+```
+
 2. ```npm install```
 
 3. ```npm run start```. On its execution, you will be able to select the kind of deployment(prod/stage) and the kind of distribution(beta/stable).
